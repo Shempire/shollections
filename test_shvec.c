@@ -1,5 +1,7 @@
 #include <stdio.h>
 
+#include "shunit/shunit.h"
+
 #include "shvec.h"
 
 /**
@@ -10,87 +12,81 @@ typedef SHVEC(long) long_vec_t;
 void test_int_vec(void) {
     SHVEC(int) my_int_vec = SHVEC_EMPTY();
 
-    printf("---\n");
-    printf("APPEND(12): %zu\n", SHVEC_APPEND(my_int_vec, 12));
-    printf("cap: %zu sz: %zu\n", my_int_vec.cap, my_int_vec.sz);
-    printf(" 0: %d\n", my_int_vec.values[0]);
+    TEST("SHVEC_APPEND") {
+        int expected[] = {12, 15, 18, -1};
 
-    printf("---\n");
-    printf("APPEND(15): %zu\n", SHVEC_APPEND(my_int_vec, 15));
-    printf("cap: %zu sz: %zu\n", my_int_vec.cap, my_int_vec.sz);
-    printf(" 0: %d\n", my_int_vec.values[0]);
-    printf(" 1: %d\n", my_int_vec.values[1]);
+        ASSERT(SHVEC_APPEND(my_int_vec, 12) == 0);
+        ASSERT(my_int_vec.cap == 1);
+        ASSERT(my_int_vec.sz == 1);
+        ASSERT_MEM_MATCHES(my_int_vec.values, expected, 1);
 
-    printf("---\n");
-    printf("APPEND(18): %zu\n", SHVEC_APPEND(my_int_vec, 18));
-    printf("cap: %zu sz: %zu\n", my_int_vec.cap, my_int_vec.sz);
-    printf(" 0: %d\n", my_int_vec.values[0]);
-    printf(" 1: %d\n", my_int_vec.values[1]);
-    printf(" 2: %d\n", my_int_vec.values[2]);
+        ASSERT(SHVEC_APPEND(my_int_vec, 15) == 1);
+        ASSERT(my_int_vec.cap == 2);
+        ASSERT(my_int_vec.sz == 2);
+        ASSERT_MEM_MATCHES(my_int_vec.values, expected, 2);
 
-    printf("---\n");
-    printf("APPEND(-1): %zu\n", SHVEC_APPEND(my_int_vec, -1));
-    printf("cap: %zu sz: %zu\n", my_int_vec.cap, my_int_vec.sz);
-    printf(" 0: %d\n", my_int_vec.values[0]);
-    printf(" 1: %d\n", my_int_vec.values[1]);
-    printf(" 2: %d\n", my_int_vec.values[2]);
-    printf(" 3: %d\n", my_int_vec.values[3]);
+        ASSERT(SHVEC_APPEND(my_int_vec, 18) == 2);
+        ASSERT(my_int_vec.cap == 4);
+        ASSERT(my_int_vec.sz == 3);
+        ASSERT_MEM_MATCHES(my_int_vec.values, expected, 3);
 
-    printf("---\n");
-    printf("SET(0, 150): %d\n", SHVEC_SET(my_int_vec, 0, 150));
-    printf("SET(1, 200): %d\n", SHVEC_SET(my_int_vec, 1, 200));
-    printf("SET(8, 400): %d\n", SHVEC_SET(my_int_vec, 8, 400));
-    printf("cap: %zu sz: %zu\n", my_int_vec.cap, my_int_vec.sz);
-    printf(" 0: %d\n", my_int_vec.values[0]);
-    printf(" 1: %d\n", my_int_vec.values[1]);
-    printf(" 2: %d\n", my_int_vec.values[2]);
-    printf(" 3: %d\n", my_int_vec.values[3]);
+        ASSERT(SHVEC_APPEND(my_int_vec, -1) == 3);
+        ASSERT(my_int_vec.cap == 4);
+        ASSERT(my_int_vec.sz == 4);
+        ASSERT_MEM_MATCHES(my_int_vec.values, expected, 4);
+    }
 
-    printf("---\n");
-    printf("INSERT(0, -3): %d\n", SHVEC_INSERT(my_int_vec, 0, -3));
-    printf("INSERT(2, -4): %d\n", SHVEC_INSERT(my_int_vec, 2, -4));
-    printf("INSERT(5, -5): %d\n", SHVEC_INSERT(my_int_vec, 5, -5));
-    printf("INSERT(7, -7): %d\n", SHVEC_INSERT(my_int_vec, 7, -7));
-    printf("cap: %zu sz: %zu\n", my_int_vec.cap, my_int_vec.sz);
-    printf(" 0: %d\n", my_int_vec.values[0]);
-    printf(" 1: %d\n", my_int_vec.values[1]);
-    printf(" 2: %d\n", my_int_vec.values[2]);
-    printf(" 3: %d\n", my_int_vec.values[3]);
-    printf(" 4: %d\n", my_int_vec.values[4]);
-    printf(" 5: %d\n", my_int_vec.values[5]);
-    printf(" 6: %d\n", my_int_vec.values[6]);
-    printf(" 7: %d\n", my_int_vec.values[7]);
+    TEST("SHVEC_SET") {
+        ASSERT(SHVEC_SET(my_int_vec, 0, 150) == 1);
+        ASSERT(SHVEC_SET(my_int_vec, 1, 200) == 1);
+        ASSERT(SHVEC_SET(my_int_vec, 8, 400) == 0);
 
-    printf("---\n");
-    printf("EXTEND(12): %d\n", SHVEC_EXTEND(my_int_vec, 12));
-    printf("cap: %zu sz: %zu\n", my_int_vec.cap, my_int_vec.sz);
-    printf(" 0: %d\n", my_int_vec.values[0]);
-    printf(" 1: %d\n", my_int_vec.values[1]);
-    printf(" 2: %d\n", my_int_vec.values[2]);
-    printf(" 3: %d\n", my_int_vec.values[3]);
-    printf(" 4: %d\n", my_int_vec.values[4]);
-    printf(" 5: %d\n", my_int_vec.values[5]);
-    printf(" 6: %d\n", my_int_vec.values[6]);
-    printf(" 7: %d\n", my_int_vec.values[7]);
-    printf(" 8: %d\n", my_int_vec.values[8]);
-    printf(" 9: %d\n", my_int_vec.values[9]);
-    printf("10: %d\n", my_int_vec.values[10]);
-    printf("11: %d\n", my_int_vec.values[11]);
+        ASSERT(my_int_vec.cap == 4);
+        ASSERT(my_int_vec.sz == 4);
 
-    printf("---\n");
-    printf("REMOVE(11): %d\n", SHVEC_REMOVE(my_int_vec, 11));
-    printf("REMOVE(10): %d\n", SHVEC_REMOVE(my_int_vec, 10));
-    printf("REMOVE(3): %d\n", SHVEC_REMOVE(my_int_vec, 3));
-    printf("REMOVE(0): %d\n", SHVEC_REMOVE(my_int_vec, 0));
-    printf("cap: %zu sz: %zu\n", my_int_vec.cap, my_int_vec.sz);
-    printf(" 0: %d\n", my_int_vec.values[0]);
-    printf(" 1: %d\n", my_int_vec.values[1]);
-    printf(" 2: %d\n", my_int_vec.values[2]);
-    printf(" 3: %d\n", my_int_vec.values[3]);
-    printf(" 4: %d\n", my_int_vec.values[4]);
-    printf(" 5: %d\n", my_int_vec.values[5]);
-    printf(" 6: %d\n", my_int_vec.values[6]);
-    printf(" 7: %d\n", my_int_vec.values[7]);
+        int expected[] = {150, 200, 18, -1};
+        ASSERT_MEM_MATCHES(my_int_vec.values, expected, 4);
+    }
+
+    TEST("SHVEC_INSERT") {
+        ASSERT(SHVEC_INSERT(my_int_vec, 0, -3) == 1);
+        ASSERT(SHVEC_INSERT(my_int_vec, 2, -4) == 1);
+        ASSERT(SHVEC_INSERT(my_int_vec, 5, -5) == 1);
+        ASSERT(SHVEC_INSERT(my_int_vec, 7, -7) == 1);
+
+        ASSERT(my_int_vec.cap == 8);
+        ASSERT(my_int_vec.sz == 8);
+
+        int expected[] = {-3, 150, -4, 200, 18, -5, -1, -7};
+        ASSERT_MEM_MATCHES(my_int_vec.values, expected, 8);
+    }
+
+    TEST("SHVEC_EXTEND") {
+        ASSERT(SHVEC_EXTEND(my_int_vec, 5) == 0);
+        ASSERT(SHVEC_EXTEND(my_int_vec, 12) == 1);
+        ASSERT(SHVEC_EXTEND(my_int_vec, 12) == 0);
+
+        ASSERT(my_int_vec.cap == 16);
+        ASSERT(my_int_vec.sz == 12);
+
+        int expected[] = {-3, 150, -4, 200, 18, -5, -1, -7, 0, 0, 0, 0};
+        ASSERT_MEM_MATCHES(my_int_vec.values, expected, 12);
+    }
+
+    TEST("SHVEC_REMOVE") {
+        ASSERT(SHVEC_REMOVE(my_int_vec, 11) == 1);
+        ASSERT(SHVEC_REMOVE(my_int_vec, 11) == 0);
+        ASSERT(SHVEC_REMOVE(my_int_vec, 10) == 1);
+        ASSERT(SHVEC_REMOVE(my_int_vec, 3) == 1);
+        ASSERT(SHVEC_REMOVE(my_int_vec, 0) == 1);
+        ASSERT(SHVEC_REMOVE(my_int_vec, 12) == 0);
+
+        ASSERT(my_int_vec.cap == 16);
+        ASSERT(my_int_vec.sz == 8);
+
+        int expected[] = {150, -4, 18, -5, -1, -7, 0, 0};
+        ASSERT_MEM_MATCHES(my_int_vec.values, expected, 8);
+    }
 
 
     // Will cause warnings

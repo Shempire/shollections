@@ -1,0 +1,3 @@
+[submodule "shunit"]
+	path = shunit
+	url = https://github.com/Shempire/shunit.git
