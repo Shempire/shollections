@@ -124,7 +124,7 @@ inline static _Bool _shvec_ensure_cap(
                 ((_struct).values[(_struct).sz] = (_value)),                \
                 ((ssize_t) ((_struct).sz++))                                \
               )                                                             \
-            : -1                                                            \
+            : ((ssize_t) -1)                                                \
     )
 
 /**
