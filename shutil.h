@@ -2,7 +2,9 @@
 #define _SHUTIL_H_
 
 #include <limits.h>
+#include <stddef.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 #ifndef __has_builtin
 #define __has_builtin(x) 0

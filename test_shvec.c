@@ -62,7 +62,7 @@ void test_int_vec(void) {
     printf(" 7: %d\n", my_int_vec.values[7]);
 
     printf("---\n");
-    SHVEC_EXTEND(my_int_vec, 12, 101);
+    printf("EXTEND(12): %d\n", SHVEC_EXTEND(my_int_vec, 12));
     printf("cap: %zu sz: %zu\n", my_int_vec.cap, my_int_vec.sz);
     printf(" 0: %d\n", my_int_vec.values[0]);
     printf(" 1: %d\n", my_int_vec.values[1]);
